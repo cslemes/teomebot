@@ -64,9 +64,9 @@ func GetChat(client *twitch.Client, channel string) {
 		"anaconda": Anaconda,
 		"vscode":   VSCode,
 
-		"join_":     Join,
-		"presente_": Presente,
-		"profile_":  Profile,
+		"join":     Join,
+		"presente": Presente,
+		// "profile":  Profile,
 	}
 
 	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
