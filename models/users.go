@@ -17,23 +17,23 @@ type TwitchUser struct {
 func (tu *TwitchUser) Create(con *gorm.DB) error {
 
 	res := con.Create(tu)
-	if res.Error != nil {
-		con.Rollback()
-		return res.Error
-	}
-
-	con.Commit()
-	return nil
-}
-
-func (tu *TwitchUser) Update(con *gorm.DB) error {
-	res := conDB.Save(tu)
+	defer res.Commit()
 	if res.Error != nil {
 		res.Rollback()
 		return res.Error
 	}
 
-	res.Commit()
+	return nil
+}
+
+func (tu *TwitchUser) Update(con *gorm.DB) error {
+	res := conDB.Save(tu)
+	defer res.Commit()
+	if res.Error != nil {
+		res.Rollback()
+		return res.Error
+	}
+
 	return nil
 }
 
@@ -42,10 +42,10 @@ func GetUserByField(fieldName, fieldValue string, con *gorm.DB) (*TwitchUser, er
 	user := &TwitchUser{}
 
 	res := con.First(&user, fmt.Sprintf("%s = ?", fieldName), fieldValue)
+	defer res.Commit()
 	if res.Error != nil {
 		res.Rollback()
 		return nil, res.Error
 	}
-	res.Commit()
 	return user, nil
 }

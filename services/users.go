@@ -62,12 +62,12 @@ func CreateUser(twitchID string) (string, error) {
 		return "", err
 	}
 
-	userResp := &Customer{}
+	userResp := &CreateUserResp{}
 	if err := json.Unmarshal(respContent, &userResp); err != nil {
 		return "", err
 	}
 
-	return userResp.UUID, nil
+	return userResp.Customer.UUID, nil
 }
 
 func UpdateUser(user map[string]string) error {

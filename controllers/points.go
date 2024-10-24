@@ -20,7 +20,7 @@ func ExecMessageChat(u twitch.User) {
 
 	chatProduct := models.NewChatMessage()
 	if err := services.AddPoints(user.UUID, chatProduct); err != nil {
-		log.Println(u.Name, err)
+		log.Println(u.Name, user.UUID, err)
 	}
 }
 
