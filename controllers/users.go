@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"teomebot/models"
 	"teomebot/services"
 
@@ -17,6 +18,7 @@ func ExecCreateOrUpdateUser(twitchUser *twitch.User) error {
 
 			userID, err := services.CreateUser(twitchUser.ID)
 			if err != nil {
+				log.Println(err)
 				return err
 			}
 

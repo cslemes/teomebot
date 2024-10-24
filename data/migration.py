@@ -6,11 +6,10 @@ import sqlalchemy
 con = sqlalchemy.create_engine("sqlite:///database_test.db")
 # %%
 
-
 query = """
 SELECT 
     UUID as uuid,
-    IDTwitch AS twitch_id,
+    null AS twitch_id,
     NickTwitch AS twitch_nick
 
 FROM tb_users
