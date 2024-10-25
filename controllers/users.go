@@ -38,5 +38,18 @@ func ExecCreateOrUpdateUser(twitchUser *twitch.User) error {
 
 	user.TwitchId = twitchUser.ID
 	user.TwitchNick = twitchUser.Name
-	return user.Update(conDB)
+	if err := user.Update(conDB); err != nil {
+		return err
+	}
+
+	userMap := map[string]string{
+		"uuid":   user.UUID,
+		"twitch": user.TwitchId,
+	}
+
+	if err := services.UpdateUser(userMap); err != nil {
+		return err
+	}
+
+	return nil
 }
