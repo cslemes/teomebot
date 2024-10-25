@@ -97,3 +97,32 @@ func UpdateUser(user map[string]string) error {
 
 	return nil
 }
+
+func GetCustomer(twitchID string) (*Customer, error) {
+
+	url := "http://points:8081/customers/?id_twitch=%s"
+	url = fmt.Sprintf(url, twitchID)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("erro na requisição. statuscode: %d", resp.StatusCode)
+	}
+
+	bodyReader, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	customers := []Customer{}
+	if err := json.Unmarshal(bodyReader, &customers); err != nil {
+		return nil, err
+	}
+
+	customer := customers[0]
+	return &customer, nil
+}

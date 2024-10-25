@@ -65,6 +65,7 @@ func GetChat(client *twitch.Client, channel string) {
 		"vscode":   VSCode,
 
 		"join":     Join,
+		"cubos":    Cubos,
 		"presente": Presente,
 		// "profile":  Profile,
 	}

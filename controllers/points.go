@@ -95,3 +95,14 @@ func ExecProfile(u twitch.User) string {
 	return fmt.Sprintf("%s Proba. Churn: %.2f", user.TwitchNick, proba*100)
 
 }
+
+func GetUserPointsController(twitchUser *twitch.User) string {
+
+	customer, err := services.GetCustomer(twitchUser.ID)
+	if err != nil {
+		log.Println(err)
+		return fmt.Sprintf("%s não foi possível obter seus cubos", twitchUser.Name)
+	}
+
+	return fmt.Sprintf("%s você tem %d cubos", twitchUser.Name, customer.NrPoints)
+}

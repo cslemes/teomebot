@@ -280,6 +280,13 @@ func Join(c *twitch.Client, m twitch.PrivateMessage) {
 	c.Say(m.Channel, fmt.Sprintf("%s usuário criado ou atualizado com sucesso", m.User.Name))
 }
 
+func Cubos(c *twitch.Client, m twitch.PrivateMessage) {
+
+	msg := controllers.GetUserPointsController(&m.User)
+	c.Say(m.Channel, msg)
+
+}
+
 func Presente(c *twitch.Client, m twitch.PrivateMessage) {
 
 	msg := controllers.ExecPresent(m.User)
