@@ -107,7 +107,7 @@ func ProfileController(u twitch.User) string {
 		return fmt.Sprintf("%s deu ruim em adicionar seus pontos.", user.TwitchNick)
 	}
 
-	return fmt.Sprintf("%s Proba. Churn: %.2f | +%d cubos", user.TwitchNick, proba*100, p.VlProduct)
+	return fmt.Sprintf("%s Proba. Churn: %.2f%% | +%d cubos", user.TwitchNick, proba*100, p.VlProduct)
 
 }
 
