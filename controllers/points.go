@@ -9,7 +9,7 @@ import (
 	"github.com/gempir/go-twitch-irc/v4"
 )
 
-func ExecMessageChat(u twitch.User) {
+func MessageChatController(u twitch.User) {
 
 	user := &models.TwitchUser{}
 	res := conDB.First(&user, "twitch_id = ?", u.ID)
@@ -24,7 +24,7 @@ func ExecMessageChat(u twitch.User) {
 	}
 }
 
-func ExecPresent(u twitch.User) string {
+func PresentController(u twitch.User) string {
 
 	user := &models.TwitchUser{}
 	res := conDB.First(&user, "twitch_id = ?", u.ID)
@@ -74,25 +74,40 @@ func ExecPresent(u twitch.User) string {
 	return txt
 }
 
-func ExecProfile(u twitch.User) string {
+func ProfileController(u twitch.User) string {
 
 	user := &models.TwitchUser{}
 
-	res := conDB.First(&user, "twitch_id = ?", u.ID)
-	if res.Error != nil {
+	if res := conDB.First(&user, "twitch_id = ?", u.ID); res.Error != nil {
 		return fmt.Sprintf("%s usuário não encontrado. Dê !join para participar.", user.TwitchNick)
 	}
 
 	proba, err := services.GetUserChurnProb(user.UUID)
 	if err != nil {
+
+		if err.Error() == "user not found" {
+			return fmt.Sprintf("%s usuário não encontrado. Dê !join ou volte amanhã.", user.TwitchNick)
+		}
+
 		log.Println(err)
 		return fmt.Sprintf("%s erro ao obter seu churn score.", user.TwitchNick)
 	}
 
-	p := models.NewChurn(proba)
-	services.AddPoints(user.UUID, p)
+	if models.ProfileUserExists(user.UUID) {
+		return fmt.Sprintf("%s Proba. Churn: %.2f", user.TwitchNick, proba*100)
+	}
 
-	return fmt.Sprintf("%s Proba. Churn: %.2f", user.TwitchNick, proba*100)
+	profile := models.NewProfileUser(user.UUID)
+	if res := conDB.Save(profile); res.Error != nil {
+		return fmt.Sprintf("%s erro ao salvar seu profile de hoje", user.TwitchNick)
+	}
+
+	p := models.NewChurn(proba)
+	if err := services.AddPoints(user.UUID, p); err != nil {
+		return fmt.Sprintf("%s deu ruim em adicionar seus pontos.", user.TwitchNick)
+	}
+
+	return fmt.Sprintf("%s Proba. Churn: %.2f | +%d cubos", user.TwitchNick, proba*100, p.VlProduct)
 
 }
 

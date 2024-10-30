@@ -67,7 +67,7 @@ func GetChat(client *twitch.Client, channel string) {
 		"join":     Join,
 		"cubos":    Cubos,
 		"presente": Presente,
-		// "profile":  Profile,
+		"profile":  Profile,
 	}
 
 	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
@@ -78,7 +78,7 @@ func GetChat(client *twitch.Client, channel string) {
 				go execCommand(client, message)
 			}
 		} else {
-			go controllers.ExecMessageChat(message.User)
+			go controllers.MessageChatController(message.User)
 		}
 	})
 

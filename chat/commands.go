@@ -289,7 +289,7 @@ func Cubos(c *twitch.Client, m twitch.PrivateMessage) {
 
 func Presente(c *twitch.Client, m twitch.PrivateMessage) {
 
-	msg := controllers.ExecPresent(m.User)
+	msg := controllers.PresentController(m.User)
 	if msg == "" {
 		return
 	}
@@ -299,7 +299,7 @@ func Presente(c *twitch.Client, m twitch.PrivateMessage) {
 
 func Profile(c *twitch.Client, m twitch.PrivateMessage) {
 
-	msg := controllers.ExecProfile(m.User)
+	msg := controllers.ProfileController(m.User)
 	c.Say(m.Channel, msg)
 
 }
