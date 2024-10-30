@@ -28,7 +28,7 @@ func main() {
 			panic("erro na conexão com banco")
 		}
 
-		con.AutoMigrate(&models.PresentUser{}, &models.StreakPresentUser{}, &models.TwitchUser{})
+		con.AutoMigrate(&models.PresentUser{}, &models.StreakPresentUser{}, &models.TwitchUser{}, &models.ProfileUser{})
 		return
 	}
 
