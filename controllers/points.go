@@ -94,7 +94,7 @@ func ProfileController(u twitch.User) string {
 	}
 
 	if models.ProfileUserExists(user.UUID) {
-		return fmt.Sprintf("%s Proba. Churn: %.2f", user.TwitchNick, proba*100)
+		return fmt.Sprintf("%s Proba. Churn: %.2f%%", user.TwitchNick, proba*100)
 	}
 
 	profile := models.NewProfileUser(user.UUID)
