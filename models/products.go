@@ -44,6 +44,10 @@ type Churn struct {
 	Product
 }
 
+type Troca struct {
+	Product
+}
+
 func NewChatMessage() *ChatMessage {
 	return &ChatMessage{
 		Product: Product{
@@ -115,6 +119,16 @@ func NewChurn(churn float64) *Churn {
 			CodProduct:  cod,
 			QtdeProduct: 1,
 			VlProduct:   points,
+		},
+	}
+}
+
+func NewTroca() *Troca {
+	return &Troca{
+		Product: Product{
+			CodProduct:  "17",
+			QtdeProduct: 1,
+			VlProduct:   -1000,
 		},
 	}
 }

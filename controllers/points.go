@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"log"
+	"teomebot/clients/streamelements"
 	"teomebot/models"
 	"teomebot/services"
 
@@ -111,13 +112,39 @@ func ProfileController(u twitch.User) string {
 
 }
 
-func GetUserPointsController(twitchUser *twitch.User) string {
+func GetUserPointsController(u twitch.User) string {
 
-	customer, err := services.GetCustomer(twitchUser.ID)
+	customer, err := services.GetCustomer(u.ID)
 	if err != nil {
 		log.Println(err)
-		return fmt.Sprintf("%s não foi possível obter seus cubos", twitchUser.Name)
+		return fmt.Sprintf("%s não foi possível obter seus cubos", u.Name)
 	}
 
-	return fmt.Sprintf("%s você tem %d cubos", twitchUser.Name, customer.NrPoints)
+	return fmt.Sprintf("%s você tem %d cubos", u.Name, customer.NrPoints)
+}
+
+func TrocaController(u twitch.User) string {
+
+	customer, err := services.GetCustomer(u.ID)
+	if err != nil {
+		return fmt.Sprintf("%s não encontramos seu usuário. Dê !join", u.DisplayName)
+	}
+
+	if customer.NrPoints < 1000 {
+		return fmt.Sprintf("%s cubos insuficientes para troca. Junte 1000 cubos.", u.DisplayName)
+	}
+
+	streamReq := &streamelements.AddPointsRequest{UserName: u.Name, Amount: 100}
+	if err := clientStreamElements.AddPoints(streamReq); err != nil {
+		return fmt.Sprintf("%s erro ao atribuir seus datapoints no streamElements", u.DisplayName)
+	}
+
+	prod := models.NewTroca()
+	if err := services.AddPoints(customer.UUID, prod); err != nil {
+		streamReq.Amount = -100
+		clientStreamElements.AddPoints(streamReq)
+		return fmt.Sprintf("%s erro ao realizar sua troca", u.DisplayName)
+	}
+
+	return fmt.Sprintf("%s troca realizada com sucesso", u.DisplayName)
 }

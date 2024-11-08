@@ -281,14 +281,11 @@ func Join(c *twitch.Client, m twitch.PrivateMessage) {
 }
 
 func Cubos(c *twitch.Client, m twitch.PrivateMessage) {
-
-	msg := controllers.GetUserPointsController(&m.User)
+	msg := controllers.GetUserPointsController(m.User)
 	c.Say(m.Channel, msg)
-
 }
 
 func Presente(c *twitch.Client, m twitch.PrivateMessage) {
-
 	msg := controllers.PresentController(m.User)
 	if msg == "" {
 		return
@@ -298,8 +295,11 @@ func Presente(c *twitch.Client, m twitch.PrivateMessage) {
 }
 
 func Profile(c *twitch.Client, m twitch.PrivateMessage) {
-
 	msg := controllers.ProfileController(m.User)
 	c.Say(m.Channel, msg)
+}
 
+func Troca(c *twitch.Client, m twitch.PrivateMessage) {
+	msg := controllers.TrocaController(m.User)
+	c.Say(m.Channel, msg)
 }
