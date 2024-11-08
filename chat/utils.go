@@ -68,6 +68,7 @@ func GetChat(client *twitch.Client, channel string) {
 		"cubos":    Cubos,
 		"presente": Presente,
 		"profile":  Profile,
+		"troca":    Troca,
 	}
 
 	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
