@@ -268,6 +268,13 @@ func Pandas(c *twitch.Client, m twitch.PrivateMessage) {
 
 // ----------- //
 
+func Mega(c *twitch.Client, m twitch.PrivateMessage) {
+	msg := controllers.MegaController(m.User)
+	c.Say(m.Channel, msg)
+}
+
+// ----------- //
+
 func Join(c *twitch.Client, m twitch.PrivateMessage) {
 
 	err := controllers.ExecCreateOrUpdateUser(&m.User)
