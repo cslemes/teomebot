@@ -4,20 +4,27 @@ substitutions:
 steps:
   - name: "gcr.io/cloud-builders/docker"
     args:
-      [
-        "build",
-        "--no-cache",
-        "-t",
-        "gcr.io/$PROJECT_ID/teomebot:$_VERSION",
-        "-t",
-        "gcr.io/$PROJECT_ID/teomebot:latest",
-        ".",
-      ]
+      - "build"
+      - "--no-cache"
+      - "-t"
+      - "gcr.io/$PROJECT_ID/teomebot:$_VERSION"
+      - "-t"
+      - "gcr.io/$PROJECT_ID/teomebot:latest"
+      - "."
+      - "- Dockerfile"
+    id: Build
+
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/teomebot:$_VERSION"]
+    args:
+      - "push"
+      - "gcr.io/$PROJECT_ID/teomebot:$_VERSION"
+    id: Push
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/$PROJECT_ID/teomebot:latest"]
-  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - "push"
+      - "gcr.io/$PROJECT_ID/teomebot:latest"
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
     args:
       - "compute"
       - "instances"
