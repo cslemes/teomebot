@@ -8,7 +8,8 @@ RUN go mod download && go mod verify
 
 RUN CGO_ENABLED=0 GOARCH=amd64 GOOS=linux go build -o /app/tmwbot -a -ldflags="-s -w" -installsuffix cgo
 
-FROM scratch AS prod
+# FROM scratch AS prod
+FROM gcr.io/distroless/static-debian12 AS prod
 
 WORKDIR /app
 
