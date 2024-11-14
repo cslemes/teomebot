@@ -1,13 +1,10 @@
-substitutions:
-  _VERSION: "v1.0.${BUILD_ID}"
-
 steps:
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "build"
       - "--no-cache"
       - "-t"
-      - "gcr.io/$PROJECT_ID/teomebot:$_VERSION"
+      - "gcr.io/$PROJECT_ID/teomebot:$COMMIT_SHA"
       - "-t"
       - "gcr.io/$PROJECT_ID/teomebot:latest"
       - "."
@@ -17,7 +14,7 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "push"
-      - "gcr.io/$PROJECT_ID/teomebot:$_VERSION"
+      - "gcr.io/$PROJECT_ID/teomebot:$COMMIT_SHA"
     id: Push
   - name: "gcr.io/cloud-builders/docker"
     args:
