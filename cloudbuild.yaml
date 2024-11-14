@@ -11,7 +11,6 @@ steps:
       - "-t"
       - "gcr.io/$PROJECT_ID/teomebot:latest"
       - "."
-      - "- Dockerfile"
     id: Build
 
   - name: "gcr.io/cloud-builders/docker"
