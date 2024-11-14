@@ -1,0 +1,28 @@
+substitutions:
+  _VERSION: "v1.0.${BUILD_ID}"
+
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--no-cache",
+        "-t",
+        "gcr.io/$PROJECT_ID/teomebot:$_VERSION",
+        "-t",
+        "gcr.io/$PROJECT_ID/teomebot:latest",
+        ".",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/teomebot:$_VERSION"]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/teomebot:latest"]
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - "compute"
+      - "instances"
+      - "update-container"
+      - "teomebot-instance"
+      - "--container-image=gcr.io/$PROJECT_ID/teomebot:latest"
+      - "--zone=$_DEPLOY_ZONE"
+      - "--container-restart-policy=always"
