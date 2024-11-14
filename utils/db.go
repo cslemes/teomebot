@@ -16,13 +16,13 @@ func OpenDBConnection() (*gorm.DB, error) {
 	godotenv.Load(".env")
 
 	HOST_DB := os.Getenv("HOST_DB")
-	//PORT_DB := os.Getenv("PORT_DB")
+	PORT_DB := os.Getenv("PORT_DB")
 	USER_DB := os.Getenv("USER_DB")
 	//PASSWORD_DB := os.Getenv("PASSWORD_DB")
-	dsn := "%s:%s@unix(/cloudsql/%s)/%s?charset=utf8mb4&parseTime=True&loc=Local"
+	//	dsn := "%s:%s@unix(/cloudsql/%s)/%s?charset=utf8mb4&parseTime=True&loc=Local"
 
-	//dsn := "%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local"
-	dsn = fmt.Sprintf(dsn, USER_DB, PASSWORD_DB, HOST_DB, "teomebot")
+	dsn := "%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn = fmt.Sprintf(dsn, USER_DB, PASSWORD_DB, HOST_DB, PORT_DB, "teomebot")
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	return db, err
