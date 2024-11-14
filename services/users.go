@@ -7,8 +7,11 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"time"
 )
+
+var URL_POINTS = os.Getenv("URL_POINTS")
 
 type Customer struct {
 	UUID             string    `json:"uuid" gorm:"primaryKey"`
@@ -39,7 +42,7 @@ func CreateUser(twitchID string) (string, error) {
 		return "", err
 	}
 
-	url := "http://points:8081/customers/"
+	url := fmt.Sprintf("http://%s:8081/customers/", URL_POINTS)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(bodyUser))
 	if err != nil {
 		return "", err
@@ -77,7 +80,7 @@ func UpdateUser(user map[string]string) error {
 		return err
 	}
 
-	url := fmt.Sprintf("http://points:8081/customers/%s", user["uuid"])
+	url := fmt.Sprintf("http://%s:8081/customers/%s", URL_POINTS, user["uuid"])
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(bodyUser))
 	if err != nil {
 		return err
@@ -100,8 +103,8 @@ func UpdateUser(user map[string]string) error {
 
 func GetCustomer(twitchID string) (*Customer, error) {
 
-	url := "http://points:8081/customers/?id_twitch=%s"
-	url = fmt.Sprintf(url, twitchID)
+	url := "http://%s:8081/customers/?id_twitch=%s"
+	url = fmt.Sprintf(url, URL_POINTS, twitchID)
 
 	resp, err := http.Get(url)
 	if err != nil {

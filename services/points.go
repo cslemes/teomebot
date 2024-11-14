@@ -23,7 +23,7 @@ func AddPoints(userId string, p models.ProductPoints) error {
 		},
 	}
 
-	url := "http://points:8081/transactions"
+	url := fmt.Sprintf("http://%s:8081/transactions", URL_POINTS)
 	bodyReq, err := json.Marshal(&transaction)
 	if err != nil {
 		return err
