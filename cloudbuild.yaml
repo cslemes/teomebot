@@ -24,7 +24,7 @@ steps:
       - "push"
       - "gcr.io/$PROJECT_ID/teomebot:latest"
 
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
+  - name: "gcr.io/cloud-builders/gcloud"
     args:
       - "compute"
       - "instances"
