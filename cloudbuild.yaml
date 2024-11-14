@@ -1,5 +1,5 @@
 substitutions:
-  _VERSION: "v1.0.${BUILD_ID}"
+  _VERSION: "v1.0.${COMMIT_SHA}"
 
 steps:
   - name: "gcr.io/cloud-builders/docker"
