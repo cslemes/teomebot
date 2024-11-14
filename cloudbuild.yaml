@@ -26,3 +26,6 @@ steps:
       - "--container-image=gcr.io/$PROJECT_ID/teomebot:latest"
       - "--zone=$_DEPLOY_ZONE"
       - "--container-restart-policy=always"
+
+options:
+  logging: CLOUD_LOGGING_ONLY
