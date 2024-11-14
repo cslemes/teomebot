@@ -19,7 +19,8 @@ func main() {
 
 	godotenv.Load()
 	user := os.Getenv("TWITCH_BOT")
-	oauth := os.Getenv("TWITCH_OAUTH_BOT")
+	//oauth := os.Getenv("TWITCH_OAUTH_BOT")
+	oauth := utils.AccessSecretVersion("projects/551619572964/secrets/twitch-token/versions/latest")
 	channel := os.Getenv("TWITCH_CHANNEL")
 
 	if *migration {

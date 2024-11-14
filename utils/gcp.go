@@ -8,7 +8,7 @@ import (
 	"cloud.google.com/go/secretmanager/apiv1/secretmanagerpb"
 )
 
-func accessSecretVersion(name string) string {
+func AccessSecretVersion(name string) string {
 	ctx := context.Background()
 	client, err := secretmanager.NewClient(ctx)
 	if err != nil {

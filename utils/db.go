@@ -11,7 +11,7 @@ import (
 
 func OpenDBConnection() (*gorm.DB, error) {
 
-	PASSWORD_DB := accessSecretVersion("projects/551619572964/secrets/tmwdb-root/versions/latest")
+	PASSWORD_DB := AccessSecretVersion("projects/551619572964/secrets/tmwdb-root/versions/latest")
 
 	godotenv.Load(".env")
 
@@ -19,7 +19,6 @@ func OpenDBConnection() (*gorm.DB, error) {
 	PORT_DB := os.Getenv("PORT_DB")
 	USER_DB := os.Getenv("USER_DB")
 	//PASSWORD_DB := os.Getenv("PASSWORD_DB")
-	//	dsn := "%s:%s@unix(/cloudsql/%s)/%s?charset=utf8mb4&parseTime=True&loc=Local"
 
 	dsn := "%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local"
 	dsn = fmt.Sprintf(dsn, USER_DB, PASSWORD_DB, HOST_DB, PORT_DB, "teomebot")
