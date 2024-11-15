@@ -24,7 +24,7 @@ func AddPoints(userId string, p models.ProductPoints) error {
 		},
 	}
 	URL_POINTS := os.Getenv("URL_POINTS")
-	url := fmt.Sprintf("https://%s:8081/transactions", URL_POINTS)
+	url := fmt.Sprintf("https://%s/transactions", URL_POINTS)
 	bodyReq, err := json.Marshal(&transaction)
 	if err != nil {
 		return err
